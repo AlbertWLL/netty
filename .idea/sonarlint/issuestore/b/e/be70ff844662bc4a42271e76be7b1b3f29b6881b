@@ -1,0 +1,10 @@
+
+c
+java:S2095"FUse try-with-resources or close this "Selector" in a "finally" clause.(ıÓó†8•îë¬0
+c
+java:S2095"FUse try-with-resources or close this "Selector" in a "finally" clause.(†×«8ÿ”îë¬0
+o
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 32 to the 15 allowed.(œû¿Ø8‘•îë¬0
+D	java:S1082")Either remove or fill this block of code.(”ã‰G8®•îë¬0
+T	java:S106J"9Replace this use of System.out or System.err by a logger.( ¡m8½•îë¬0
+D	java:S108T")Either remove or fill this block of code.(”ã‰G8Ö•îë¬0

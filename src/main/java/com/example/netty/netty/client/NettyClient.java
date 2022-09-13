@@ -110,7 +110,7 @@ public class NettyClient {
             System.out.println("输入的消息不能为空: ");
             generateMessageForServer(channel);
         }else{
-            for(int i = 1; i<= 1000; i ++){
+            for(int i = 1; i<= 1; i ++){
                 MessageRequestPacket packet = new MessageRequestPacket();
                 packet.setMessage(line);
                 ByteBuf byteBuf = PacketCodeC.INSTANCE.encode(channel.alloc(), packet);

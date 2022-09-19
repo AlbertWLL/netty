@@ -3,6 +3,7 @@ package com.example.netty.netty.server;
 import com.example.netty.codec.PacketDecoder;
 import com.example.netty.codec.PacketEncoder;
 import com.example.netty.codec.Spliter;
+import com.example.netty.handler.AuthHandler;
 import com.example.netty.handler.LoginRequestHandler;
 import com.example.netty.handler.MessageRequestHandler;
 import io.netty.bootstrap.ServerBootstrap;
@@ -28,10 +29,11 @@ public class NettyServer {
                     //给这个引导类创建一个ChannelInitializer，这里主要就是定义后续每条连接的数据读写，业务处理逻辑
                     protected void initChannel(NioSocketChannel ch) {
                         //责任链模式
-//                        ch.pipeline().addLast(new FirstServerHandler());
                         ch.pipeline().addLast(new Spliter())
                                 .addLast(new PacketDecoder())
                                 .addLast(new LoginRequestHandler())
+                                // 增加用户登录认证的 handler
+                                // .addLast(new AuthHandler())
                                 .addLast(new MessageRequestHandler())
                                 .addLast(new PacketEncoder());
                     }

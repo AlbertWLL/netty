@@ -14,3 +14,11 @@ Bootstrap和ServerBootStrap是Netty提供的一个创建客户端和服务端启
 
 一般来说，使用Bootstrap创建启动器的步骤可分为以下几步：
 ![img.png](img.png)
+
+
+ChannelHandler的生命周期：
+![img.png](img.png)
+
+
+一对一单聊的原理我们在 仿微信 IM 系统简介:
+![img_1.png](img_1.png)

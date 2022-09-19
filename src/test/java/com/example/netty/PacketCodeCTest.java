@@ -16,7 +16,7 @@ public class PacketCodeCTest {
 
         loginRequestPacket.setVersion(((byte) 1));
         loginRequestPacket.setUserId(123);
-        loginRequestPacket.setUsername("zhangsan");
+        loginRequestPacket.setUserName("zhangsan");
         loginRequestPacket.setPassword("password");
 
 //        com.example.netty.protocol.command.PacketCodeCTest packetCodeC = new com.example.netty.protocol.command.PacketCodeCTest();

@@ -6,8 +6,9 @@ import com.example.netty.codec.Spliter;
 import com.example.netty.handler.LoginResponseHandler;
 import com.example.netty.handler.MessageReponseHandler;
 import com.example.netty.protocol.command.PacketCodeC;
+import com.example.netty.protocol.command.req.LoginRequestPacket;
 import com.example.netty.protocol.command.req.MessageRequestPacket;
-import com.example.netty.until.LoginUtil;
+import com.example.netty.until.SessionUtil;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -23,7 +24,7 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-public class NettyClient {
+public class NettyClientTwo {
 
     private static final int MAX_RETRY = 5;
 
@@ -49,7 +50,6 @@ public class NettyClient {
                     @Override
                     protected void initChannel(NioSocketChannel ch) throws Exception {
                         //责任链模式
-//                        ch.pipeline().addLast(new FirstClientHandler());
                         ch.pipeline().addLast(new Spliter())
                                 .addLast(new PacketDecoder())
                                 .addLast(new LoginResponseHandler())
@@ -95,27 +95,41 @@ public class NettyClient {
     private static void startConsoleThread(Channel channel) {
         new Thread(() -> {
             while (!Thread.interrupted()) {
-                if (LoginUtil.hasLogin(channel)) {
-                    generateMessageForServer(channel);
-                }
+                generateMessageForServer(channel);
             }
         }).start();
     }
 
     private static void generateMessageForServer(Channel channel) {
-        System.out.println("输入消息发送至服务端: ");
-        Scanner sc = new Scanner(System.in);
-        String line = sc.nextLine();
-        if(StringUtils.isEmpty(line)){
-            System.out.println("输入的消息不能为空: ");
+        if(SessionUtil.hasLogin(channel)){
+            System.out.println("输入消息发送至服务端: ");
+            //开启控制台
+            Scanner sc = new Scanner(System.in);
+            String messgae = sc.nextLine();
+            //如果已经登录就发送消息，否则进行登录
+            if(StringUtils.isEmpty(messgae)){
+                System.out.println("输入的消息不能为空: ");
+                generateMessageForServer(channel);
+            }
+            MessageRequestPacket packet = new MessageRequestPacket();
+            packet.setMessage(messgae);
+            ByteBuf byteBuf = PacketCodeC.INSTANCE.encode(channel.alloc(), packet);
+            channel.writeAndFlush(byteBuf);
             generateMessageForServer(channel);
         }else{
-            for(int i = 1; i<= 1; i ++){
-                MessageRequestPacket packet = new MessageRequestPacket();
-                packet.setMessage(line);
-                ByteBuf byteBuf = PacketCodeC.INSTANCE.encode(channel.alloc(), packet);
-                channel.writeAndFlush(byteBuf);
+            System.out.println("请输入用户名，进行登录~");
+            //开启控制台
+            Scanner sc = new Scanner(System.in);
+            String messgae = sc.nextLine();
+            //如果已经登录就发送消息，否则进行登录
+            if(StringUtils.isEmpty(messgae)){
+                System.out.println("输入的消息不能为空: ");
+                generateMessageForServer(channel);
             }
+            LoginRequestPacket loginRequestPacket = LoginRequestPacket.builder().userName(messgae).build();
+            ByteBuf byteBuf = PacketCodeC.INSTANCE.encode(channel.alloc(), loginRequestPacket);
+            channel.writeAndFlush(byteBuf);
+            generateMessageForServer(channel);
         }
     }
 }

@@ -7,9 +7,11 @@ import com.example.netty.until.SessionUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Random;
 
+@Slf4j
 public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
 
     @Override
@@ -24,7 +26,7 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
             loginResponsePacket.setUserName(loginRequestPacket.getUserName());
             Session session = Session.builder().userId(loginResponsePacket.getUserId()).userName(loginResponsePacket.getUserName()).build();
             SessionUtil.bindSession(session,ctx.channel());
-            System.out.println("登陆检验成功！");
+            log.info("【{}】登陆检验成功!",loginRequestPacket.getUserName());
         } else {
             // 校验失败
             loginResponsePacket.setSuccess(false);

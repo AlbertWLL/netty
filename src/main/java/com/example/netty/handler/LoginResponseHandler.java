@@ -41,6 +41,8 @@ public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginRespo
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
+        //用户断线之后取消绑定
+        SessionUtil.unBindSession(ctx.channel());
         System.out.println("客户端连接被关闭!");
     }
 }

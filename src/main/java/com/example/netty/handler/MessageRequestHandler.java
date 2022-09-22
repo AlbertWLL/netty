@@ -2,6 +2,7 @@ package com.example.netty.handler;
 
 import com.example.netty.protocol.command.req.MessageRequestPacket;
 import com.example.netty.protocol.command.resp.MessageResponsePacket;
+import com.example.netty.until.Session;
 import com.example.netty.until.SessionUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -13,9 +14,12 @@ public class MessageRequestHandler extends SimpleChannelInboundHandler<MessageRe
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageRequestPacket messageRequestPacket) {
-        //接收到客户端的消息之后   回复消息给客户端
+        // 1.拿到消息发送方的会话信息
+        Session session = SessionUtil.getSession(ctx.channel());
+        // 2.通过消息发送方的会话信息构造要发送的消息
         Integer userId = Integer.valueOf(messageRequestPacket.getMessage().substring(0, messageRequestPacket.getMessage().indexOf("@")));
         MessageResponsePacket messageResponsePacket = new MessageResponsePacket();
+        messageResponsePacket.setFromUserId(session.getUserId());
         messageResponsePacket.setToUserId(userId);
         messageResponsePacket.setMessage(messageRequestPacket.getMessage());
         log.info("服务收到给【{}】的短信：【{}】",userId,messageRequestPacket.getMessage());

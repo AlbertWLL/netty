@@ -8,6 +8,8 @@ import static com.example.netty.protocol.command.Command.MESSAGE_RESPONSE;
 @Data
 public class MessageResponsePacket extends Packet {
 
+    private Integer fromUserId;
+
     private Integer toUserId;
 
     private String message;

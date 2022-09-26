@@ -3,6 +3,7 @@ package com.example.netty.netty.client;
 import com.example.netty.codec.PacketDecoder;
 import com.example.netty.codec.PacketEncoder;
 import com.example.netty.codec.Spliter;
+import com.example.netty.handler.CreateGroupResponseHandler;
 import com.example.netty.handler.LoginResponseHandler;
 import com.example.netty.handler.MessageReponseHandler;
 import com.example.netty.protocol.command.PacketCodeC;
@@ -54,6 +55,7 @@ public class NettyClientTwo {
                                 .addLast(new PacketDecoder())
                                 .addLast(new LoginResponseHandler())
                                 .addLast(new MessageReponseHandler())
+                                .addLast(new CreateGroupResponseHandler())
                                 .addLast(new PacketEncoder());
                     }
                 });

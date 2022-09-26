@@ -24,4 +24,9 @@ public interface Command {
      * 服务端发送至客户端的消息指令
      */
     Byte MESSAGE_RESPONSE = 4;
+
+    /**
+     * 创建群聊
+     */
+    Byte CREATE_GROUP = 5;
 }

@@ -10,6 +10,8 @@ public class MessageResponsePacket extends Packet {
 
     private Integer fromUserId;
 
+    private String fromUserName;
+
     private Integer toUserId;
 
     private String message;

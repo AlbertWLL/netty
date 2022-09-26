@@ -4,6 +4,7 @@ import com.example.netty.codec.PacketDecoder;
 import com.example.netty.codec.PacketEncoder;
 import com.example.netty.codec.Spliter;
 import com.example.netty.handler.AuthHandler;
+import com.example.netty.handler.CreateGroupRequestHandler;
 import com.example.netty.handler.LoginRequestHandler;
 import com.example.netty.handler.MessageRequestHandler;
 import io.netty.bootstrap.ServerBootstrap;
@@ -35,6 +36,7 @@ public class NettyServer {
                                 // 增加用户登录认证的 handler
                                 // .addLast(new AuthHandler())
                                 .addLast(new MessageRequestHandler())
+                                .addLast(new CreateGroupRequestHandler())
                                 .addLast(new PacketEncoder());
                     }
                 });
